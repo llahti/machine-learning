@@ -11882,9 +11882,9 @@ div#notebook {
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>Smartcap is staying still in simulator. In below screen shot you can see smartcab circled with red color.</p>
+<p>Smartcap is staying still in simulator. In below screenshot you can see smartcab circled with red color.</p>
 <p><img src="./illustrations/Screenshot_20170828_183014.png" alt="Initial simulator state"></p>
-<p>I let simulator to run for awhile so i could see what is happening and from the console output i extracted the following output which is related to rewards.</p>
+<p>I let simulator to run for awhile so i could see what is happening. Then I extracted the following list of rewards from console output.</p>
 
 <pre><code>Agent properly idled at a red light. (rewarded 1.56)
 Agent properly idled at a red light. (rewarded 1.96)
@@ -11902,8 +11902,10 @@ Agent properly idled at a red light. (rewarded 1.73)
 Agent properly idled at a red light. (rewarded 1.14)
 Agent properly idled at a red light. (rewarded 0.44)
 Agent properly idled at a red light. (rewarded 0.12)</code></pre>
-<p>There are 2 type of rewards 1) "Properly idling at red light" 2) "idling at a green light with no oncoming traffic"</p>
-<p>In first case when light is red the rewards seems to be centered around 1 with added randomness and the second case when smartcab is idling at a green light the reward is centered at -5 with added randomness.</p>
+<p>There are two type of rewards: 
+1) "Properly idling at red light" 
+2) "idling at a green light with no oncoming traffic"</p>
+<p>In first case when light is red the rewards seems to be centered around 1 with random noise and the second case when smartcab is idling at a green light the reward is centered at -5 with random noise.</p>
 
 </div>
 </div>
@@ -11942,12 +11944,12 @@ Agent properly idled at a red light. (rewarded 0.12)</code></pre>
 * epsilon - continuous value for the exploration factor, default is 1
 * alpha   - continuous value for the learning rate, default is 0.5</code></pre>
 <p>It seems that <code>learning</code> sets learning mode on/off, <code>epsilon</code> controls how much agent is trying to explore new things, <code>alpha</code> controls how fast agent is learning.</p>
-<h4 id="environment.py">environment.py<a class="anchor-link" href="#environment.py">&#194;&#182;</a></h4><p><code>Environment.act(self, agent, action)</code> is called when agent performs an action.</p>
+<h4 id="environment.py">environment.py<a class="anchor-link" href="#environment.py">&#194;&#182;</a></h4><p><strong><code>Environment.act(self, agent, action)</code></strong> is called when agent performs an action.</p>
 <h4 id="simulator.py">simulator.py<a class="anchor-link" href="#simulator.py">&#194;&#182;</a></h4><ul>
 <li><strong><code>render_text()</code></strong>: Is the non-GUI render display of the simulation.  Simulated trial data will be rendered in the terminal/command prompt.</li>
 <li><strong><code>render()</code></strong>: Is the GUI render display of the simulation.</li>
 </ul>
-<h4 id="planner.py">planner.py<a class="anchor-link" href="#planner.py">&#194;&#182;</a></h4><p><code>next_waypoint()</code>considers first East-West direction</p>
+<h4 id="planner.py">planner.py<a class="anchor-link" href="#planner.py">&#194;&#182;</a></h4><p><strong><code>next_waypoint()</code></strong> considers first the East-West direction</p>
 
 </div>
 </div>
@@ -13050,8 +13052,8 @@ ViJOsMzMzMzMzErk/wDYRaNIXVN5KgAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>From the above visualization we are able to see that driving agent is not performing well. We can eyeball following conculsions from the visualization:</p>
-<p>Driving agent is taking bad actions about 40% of time and around 5% of actions lead to minor accident and another ~5% leads to major accident. These number are in the range what could be reasonable for randomly acting agent but personally i would expect rate of bad actions to be bit higher.</p>
-<p>Driving agent receives on average about -5 point reward per action and when you inspect rewards more in details you can find that actually the driving agent receives -10 points quite often but also rewards in range 0...3 are quite common. Especially turning left and going forward from red lights seems to cause big penalty.</p>
+<p>Driving agent is taking bad actions about 40% of time and about 5% of actions lead to minor accident and another ~5% leads to major accident. These number are in the range what could be reasonable for randomly acting agent but personally i would expect rate of bad actions to be bit higher.</p>
+<p>Driving agent receives on average about -5 reward points per action and when you inspect rewards more in details you can find that actually the driving agent receives -10 points quite often but also rewards in range 0...3 are quite common. Especially turning left and going forward from red lights seems to cause big penalty.</p>
 <p>Results are not changing significantly as a function of trials. Only exception is <strong>Rate of Reliability</strong> which jumps from 0% to 20% in the trial numbers 14...16. Could this by just random result?</p>
 <p>This smartcab is absolutely very unsafe and unreliable. And reason is that it's almost constantly violating traffic rules and it is often in accidents. (It still remains unclear whether smartcab causes those accidents, but from the traffic rule violation rate we could guess that smartcab is mostlikely causing the accidents.)</p>
 
@@ -13104,10 +13106,10 @@ ViJOsMzMzMzMzErk/wDYRaNIXVN5KgAAAABJRU5ErkJggg==
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
 <p>I would argue that all of the above mentioned features are needed for safe and efficient driving.</p>
-<p>I would also argue that most important feature is <strong>light</strong>, because that informs driving agent about the traffic lights. And for example it is very unsafe to go forward or turn left from the red lights and also by traffic rules it is prohibited. Anyhow there are also exceptions to this rule such like the red lights have been on for long time and there aren't oncoming traffic nor traffic from intersecting road.</p>
+<p>I would also argue that most important feature is <strong>light</strong>, because that informs driving agent about the traffic lights. And for example it is very unsafe to go forward or turn left from the red lights and also by traffic rules it is prohibited.</p>
 <p>Then the second most important feature is not easy pick. I assume that each intersection has traffic light so we don't need to care much about traffic coming from right. Therefore I would select <strong>oncoming</strong>  and <strong>left</strong> as the second most important features. Because those will define driving agent behavior when turning to left and right from traffic lights. When there is oncoming traffic agent can't turn to left and when there is oncoming and left traffic it will affect to agent's right turn from red lights.</p>
-<p>Then we got <strong>waypoints</strong> which affect to efficiency. These shouldn't have effect to safety as agent is able to drive safely regardless of efficiency.</p>
-<p>At last and least we got <strong>right</strong> which should be rarely needed except when we want to drive safely from red lights.</p>
+<p>Then we got <strong>waypoints</strong> which affects to efficiency. In order to arrive to target location we need to know next waypoint.</p>
+<p>At last and least we got <strong>right</strong> which should be rarely needed except when we want to drive safely forward or turn left from red lights. Ok. It is still bit questionable is this feature really needed but let it be there.</p>
 <p>I didn't included <strong>deadline</strong> into state because it doesn't provide much information to help agent to make decisions and also  25 fold increase of state space is not a good thing as it make state space sparse and potentially leads to uninformed decision.</p>
 
 </div>
@@ -13139,7 +13141,7 @@ ViJOsMzMzMzMzErk/wDYRaNIXVN5KgAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>To below table i have gathered information about the different states and based on that we can see that total number of different states is 9600 if we use all available features.</p>
+<p>I have gathered information about the different states into below table. Based on that we can see that total number of different states is 384 if we use all available features. I calculated total state space by multiplying state space size of each feature. (2<em>4</em>4<em>3</em>4*=384) Also need to remember that smartcab has 4 valid actions and each state contains Q-values for those 4 actions so total size of state and actions table is 1536.</p>
 <table>
 <thead><tr>
 <th style="text-align:center">rank</th>
@@ -13186,7 +13188,7 @@ ViJOsMzMzMzMzErk/wDYRaNIXVN5KgAAAABJRU5ErkJggg==
 </tr>
 </tbody>
 </table>
-<p>It might be that it is not possible to learn all of the states in a short period of time. Especially <code>deadline</code> grows the size of state space remarkably. Then what is reasonable number of trials? If i can train agent in couple of hours that should be fine for me. For example if it is possible to do 100 training iterations per second then i suppose we are fine.</p>
+<p>It might be that it is not possible to learn all of the states in a short period of time. Then what is reasonable number of trials? If i can train agent in couple of hours that should be fine for me. For example if it is possible to do 100 training iterations per second then i suppose we are fine.</p>
 
 </div>
 </div>
@@ -14412,7 +14414,7 @@ zMysRv4fOx1+9JU2gt8AAAAASUVORK5CYII=
 <p>Q-learning simulation results are better compared to basic agent simulation results. As expected agent's performance get's better when simulation is run more rounds.</p>
 <p>Ratio of bad actions is going down as the numbers of trials increase. There is clear downwards trend from trial #10 to #20 and bad decision rate dropped from 0.38 to 0.22 respectively.</p>
 <p>Driving agent rewards are increasing overtime and from the visualization we can see clear increase from -5 to -3.</p>
-<p>All of the indicators are showing that driver agent performance is improving over time, but rate of reliability still bit of a mystery that why it's showing so little improvement.</p>
+<p>All of the indicators are showing that driver agent performance is improving over time, but rate of reliability is still bit of a mystery. Why it's showing so little improvement?</p>
 <p>This smartcab is still quite unsafe and unreliable. It's often violating traffic rules and it is often in accidents.</p>
 <p>Observations similar to question 3 are that the safety and reliability ratings are same "F".</p>
 <p>It took 20 training trials before testing and it matches the epsilon-tolerance of 0.05. Because each trial deduct 0.05 from epsilon and we got upto 20 trials. After 20 trials the epsilon value is zero and it is below the tolerance.</p>
@@ -16819,12 +16821,12 @@ AEtERERERKRC/h8mDqAo76u8jgAAAABJRU5ErkJggg==
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer:</strong></p>
-<p>I used decaying rate with N-trials constant portion and after that decaying with rate X. Exact values for N and X were 400 and 0.005 respectively. Idea behind this type of decaying functions is that first let driving agent to randomly explore world and after N-trials start epsilon decaying so that we can coverge and finally stop learning. I also tested training with 2400 constant trials and it gave slightly improved results compared to 400.</p>
-<p>Number of trials depends and in practice i was able to achieve A+ rating in safety and reliability with 600+ trials.</p>
+<p>I used decaying rate with N-trials constant portion and after that decaying with rate X. Exact values for N and X were 400 and 0.005 respectively. Idea behind this type of decaying functions is that first let driving agent to randomly explore world and after N-trials start epsilon decaying so that we can converge and finally stop learning. I also tested training with 2400 constant trials and it gave slightly improved results compared to 400.</p>
+<p>Number of trials depends if required performance and in practice i was able to achieve A+ rating in safety and reliability with 600+ trials.</p>
 <p>I used 0.05 epsilon-tolerance and 0.5 alpha. Reason for using 0.05 epsilon-tolerance is that when propability of random choise goes below 5% it doesn't have much effect anymore. Reason for using 0.5 alpha is that it gives somewhat good balance of fast learning and learning the correct policy.</p>
 <p>Improvement compared to the previous Q-learner is easy to notice as the new optimized learner is almost perfect on many aspects and really beats the previuos one.</p>
 <p>I can say that Q-learner successfully learned appropriate policy and as a side note it is good that driver agent can be trained in simulator because it provides the speed and safety of training.</p>
-<p>I'm satisfied to <strong>A+ safety</strong> and <strong>A+ reliability</strong> of Smartcab.</p>
+<p>I'm satisfied to <strong>A+ safety</strong> and <strong>A+ reliability</strong> ratings of Smartcab.</p>
 
 </div>
 </div>
@@ -16866,62 +16868,54 @@ AEtERERERKRC/h8mDqAo76u8jgAAAABJRU5ErkJggg==
 <p>In code i'm using following state dictionnary:</p>
 <div class="highlight"><pre><span></span><span class="n">state</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;light&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;oncoming&#39;</span><span class="p">],</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;left&#39;</span><span class="p">],</span> <span class="n">waypoint</span><span class="p">,</span> <span class="n">inputs</span><span class="p">[</span><span class="s1">&#39;right&#39;</span><span class="p">])</span>
 </pre></div>
-<ol>
-<li>Optimal policy for the smartcab in given environment would be.
-1.1. Follow waypoints and obey traffic rules
-1.2. Behaviour in traffic lights
-1.2.1. If red light and not turning right then stop
-1.2.2. if red light and turning right and no other traffic then turn right
-1.2.3. If green light and turning left then wait for oncoming traffic
-1.2.4. If green light then go forward or turn right (depending of the way point )</li>
-</ol>
-<ol>
-<li>There are some records which are indicating incorrect policy. For example this 
+<h3 id="1.-Optimal-policy-for-the-smartcab-in-given-environment-would-be.">1. Optimal policy for the smartcab in given environment would be.<a class="anchor-link" href="#1.-Optimal-policy-for-the-smartcab-in-given-environment-would-be.">&#194;&#182;</a></h3><p>1.1. Follow waypoints and obey traffic rules</p>
+<p>1.2. Behaviour in traffic lights</p>
+<p>1.2.1. If red light and not turning right then stop</p>
+<p>1.2.2. if red light and turning right and no other traffic then turn right</p>
+<p>1.2.3. If green light and turning left then wait for oncoming traffic</p>
+<p>1.2.4. If green light then go forward or turn right (depending of the way point )</p>
+<h3 id="2.-There-are-some-records-which-are-indicating-incorrect-policy.-For-example-this">2. There are some records which are indicating incorrect policy. For example this<a class="anchor-link" href="#2.-There-are-some-records-which-are-indicating-incorrect-policy.-For-example-this">&#194;&#182;</a></h3>
 <pre><code>('green', 'right', 'right', 'forward', 'left')
--- forward : 0.43
--- left : -9.98
--- right : 0.97
--- None : -2.14</code></pre>
-Here agent is in green light and waypoint is forward, but according to policy car would turn right which doesn't make sense because car should go forward.</li>
-</ol>
-<ol>
-<li>Here are few examples of correctly learned policy.
-3.1. Car is in red lights and it correctly have learned to idle on red light when the way point direction is forward.
-<pre><code>('red', 'left', 'forward', 'forward', 'left')
--- forward : -35.49
--- left : -35.00
--- right : 0.00
--- None : 2.25</code></pre>
-3.2. Car is in green lights and it have correctly learned to go forward to the direction of way point.
+ -- forward : 0.43
+ -- left : -9.98
+ -- right : 0.97
+ -- None : -2.14</code></pre>
+<p>Here agent is in green light and waypoint is forward, but according to policy car would turn right which doesn't make sense because car should go forward.</p>
+<h3 id="3.-Here-are-few-examples-of-correctly-learned-policy.">3. Here are few examples of correctly learned policy.<a class="anchor-link" href="#3.-Here-are-few-examples-of-correctly-learned-policy.">&#194;&#182;</a></h3><p>3.1. Car is in red lights and it have correctly learned to idle on red light when the way point direction is forward.</p>
+
+<pre><code> ('red', 'left', 'forward', 'forward', 'left')
+  -- forward : -35.49
+  -- left : -35.00
+  -- right : 0.00
+  -- None : 2.25</code></pre>
+<p>Note! Q-value for <code>right</code> action seems to be not learned, but these values completely fills the purpose.</p>
+<p>3.2. Car is in green lights and it have correctly learned to go forward to the direction of way point.</p>
+
 <pre><code>('green', 'right', 'forward', 'forward', 'forward')
--- forward : 1.98
--- left : -15.15
--- right : 0.13
--- None : -4.48</code></pre>
-</li>
-</ol>
-<ol>
-<li>Here are few examples of incorrecly learned policy or non-optimal policy.
-4.1. Car is in red light and next way point is forward but it is turning right. Looks like it didn't learn other actions than <code>right</code>. Correct policy would be to idle in red lights.
+ -- forward : 1.98
+ -- left : -15.15
+ -- right : 0.13
+ -- None : -4.48</code></pre>
+<h3 id="4.-Here-are-few-examples-of-incorrecly-learned-policy-or-non-optimal-policy.">4. Here are few examples of incorrecly learned policy or non-optimal policy.<a class="anchor-link" href="#4.-Here-are-few-examples-of-incorrecly-learned-policy-or-non-optimal-policy.">&#194;&#182;</a></h3><p>4.1. Car is in red light and next way point is forward but it is turning right. Looks like it didn't learn other actions than <code>right</code>. Correct policy would be to idle in red lights.</p>
+
 <pre><code>('red', 'right', 'right', 'forward', None)
--- forward : 0.00
--- left : 0.00
--- right : 0.29
--- None : 0.00</code></pre>
-4.2. Car should turn to right from green light, but it is doing something else.
+ -- forward : 0.00
+ -- left : 0.00
+ -- right : 0.29
+ -- None : 0.00</code></pre>
+<p>4.2 Car should turn to right from green light, but it is doing something else.</p>
+
 <pre><code>('green', 'right', 'right', 'right', 'forward')
--- forward : 0.76
--- left : 0.00
--- right : 0.00
--- None : 0.00</code></pre>
+ -- forward : 0.76
+ -- left : 0.00
+ -- right : 0.00
+ -- None : 0.00</code></pre>
 
 <pre><code>('green', 'right', 'forward', 'right', 'right')
--- forward : 0.00
--- left : 0.00
--- right : 0.00
--- None : -2.88</code></pre>
-</li>
-</ol>
+ -- forward : 0.00
+ -- left : 0.00
+ -- right : 0.00
+ -- None : -2.88</code></pre>
 
 </div>
 </div>

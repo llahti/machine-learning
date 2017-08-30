@@ -24,9 +24,9 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
 
-        self.exploratory_phase = 400
-        self.epsilon_decay = 0.005
-        self.t = 1
+        self.exploratory_phase = 400  # Keep epsilon constant for n-trials
+        self.epsilon_decay = 0.005  # epsilon decay rate
+        self.t = 1  # trial counter
 
 
     def reset(self, destination=None, testing=False):
@@ -51,11 +51,6 @@ class LearningAgent(Agent):
             if self.t > self.exploratory_phase:
                 self.epsilon -= self.epsilon * self.epsilon_decay
             self.t += 1
-            # limit to zero
-            #if self.epsilon < 0:
-            #    self.epsilon = 0
-
-
         return None
 
     def build_state(self):
@@ -80,7 +75,6 @@ class LearningAgent(Agent):
         
         # Set 'state' as a tuple of relevant data for the agent
         state = (inputs['light'], inputs['oncoming'], inputs['left'], waypoint, inputs['right'])
-
         return state
 
 
@@ -100,8 +94,6 @@ class LearningAgent(Agent):
         for action in actions:
             if action > maxQ:
                 maxQ = action
-
-
         return maxQ 
 
 
@@ -119,9 +111,8 @@ class LearningAgent(Agent):
             if state not in self.Q:
                 actions_dict = {}
                 for key in self.valid_actions:
-                    actions_dict[key] = 0.0
+                    actions_dict[key] = 0.0  # Initial Q-value for given action
                 self.Q[state] = actions_dict
-
         return
 
 
@@ -145,10 +136,10 @@ class LearningAgent(Agent):
         if not self.learning:
             action = random.choice(self.valid_actions)
         else:
-            if random.random() < self.epsilon:
+            if random.random() < self.epsilon:  # Random action with epsilon propability
                 action = random.choice(self.valid_actions)
-                print "Random action"
             else:
+                # Build a value-action table and reverse sort it to get highest values
                 state_actions = self.Q[state]
                 q_values = []
                 for key in state_actions.keys():
@@ -156,7 +147,7 @@ class LearningAgent(Agent):
                 q_values = sorted(q_values, reverse=True)
                 maxq = q_values[0][0]
                 q_values_final = []
-                # leave same Q-values for random selection
+                # collect same Q-values for random selection
                 for pair in q_values:
                     if maxq == pair[0]:
                         q_values_final.append(pair)

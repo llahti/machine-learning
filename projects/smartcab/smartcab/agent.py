@@ -24,7 +24,7 @@ class LearningAgent(Agent):
         ###########
         # Set any additional class parameters as needed
 
-        self.exploratory_phase = 1200
+        self.exploratory_phase = 400
         self.epsilon_decay = 0.005
         self.t = 1
 
@@ -78,10 +78,7 @@ class LearningAgent(Agent):
         # constraints in order for you to learn how to adjust epsilon and alpha, and thus learn about the balance between exploration and exploitation.
         # With the hand-engineered features, this learning process gets entirely negated.
         
-        # Set 'state' as a tuple of relevant data for the agent        
-        # state = (inputs['light'], inputs['oncoming'], inputs['left'], waypoint, deadline, inputs['right'])
-
-        # Try without deadline
+        # Set 'state' as a tuple of relevant data for the agent
         state = (inputs['light'], inputs['oncoming'], inputs['left'], waypoint, inputs['right'])
 
         return state
